@@ -154,7 +154,7 @@
                     case Menu.상태창://case 상태창 텍스트가 긴거 같아서 아래로 빼봤드아아아아 >~< 
                         Console.WriteLine($"\n상태창으로 이동합니다.");
                         System.Threading.Thread.Sleep(1000);
-                        Console.Clear();
+                        player.PlayerInfo();
                         break;
                     case Menu.인벤토리:
                         Console.WriteLine($"\n인벤토리로 이동합니다.");
@@ -164,7 +164,7 @@
                     case Menu.상점:
                         Console.WriteLine($"\n상점으로 이동합니다.");
                         System.Threading.Thread.Sleep(1000);
-                        shop.ShopInfo();
+                        shop.ShopInfo(player);
                         break;
                     //case Menu.던전:
                     //    PrintLineWithDelay($"\n던전으로 이동합니다.");
@@ -202,10 +202,12 @@
         {
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine($"  <<상태창>> \n\n플레이어: {name}\n  직업  : {job}");
-                Console.WriteLine($"  체력  : {hp}\n 공격력 : {str}\n 방어력 : {def}\n  Gold  : {gold}");
+                Console.WriteLine($"  체력  : {hp}\n 공격력 : {str}\n 방어력 : {def}\n  Gold  : {gold} G");
                 Console.WriteLine("\n\nEnter: 마을로 되돌아가기!!");
-                Console.WriteLine();
+                Console.ReadLine();
+                Console.WriteLine("마을로 진입합니다...");
                 System.Threading.Thread.Sleep(1000);
                 break;
             }
@@ -272,28 +274,33 @@
 
         public void InvenInfo()
         {
-                Console.Clear();
-                Console.Write("<<인벤토리>> ");
-                Console.Write(_wear);
-                Console.WriteLine("\n\n보유중인 아이템을 관리할 수 있습니다.");
-                Console.WriteLine("\n\n[아이템 목록] \n\n보유중인 아이템을 관리할 수 있습니다. ");
-                Console.WriteLine($"\n\n1.아이템 장착관리 \n0.나가기\n");
-                while (true)
-                {
-                    int choose = int.Parse(Console.ReadLine());
+            Console.Clear();
+            Console.Write("<<인벤토리>> ");
+            Console.Write(_wear);
+            Console.WriteLine("\n\n보유중인 아이템을 관리할 수 있습니다.");
+            Console.WriteLine("\n\n[아이템 목록] \n\n보유중인 아이템을 관리할 수 있습니다. ");
+            Console.WriteLine($"\n\n1.캐릭터 꾸미기 \n0.나가기\n");
+            while (true)
+            {
+                int choose = int.Parse(Console.ReadLine());
 
-                    switch (choose)
-                    {
-                        case 0://나가기
-                            _wear = "";
-                            break;
-                        case 1:
-                            _wear = " - 아이템 장착관리 \n";
-                            InvenInfo();
-                            break;
-                    }
-                    break;
+                switch (choose)
+                {
+                    case 0://나가기
+                        _wear = "";
+                        System.Threading.Thread.Sleep(1000);
+                        break;
+                    case 1:
+                        _wear = " - 아이템 장착관리 \n";
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"캐릭터 꾸미기는 단장중 ~★ .★ ~\n");
+                        Console.WriteLine($"마을로 되돌아갑니당 ~★ .★ ~");
+                        Console.ResetColor();
+                        System.Threading.Thread.Sleep(1500);
+                        break;
                 }
+                break;
+            }
         }
     }
 
@@ -309,11 +316,12 @@
         bool _istrade;
 
 
-        public void ShopInfo()
+        public void ShopInfo(Player player)
         {
             Console.Clear();
             Console.Write($"<<상점>>");
             Console.Write(_st);
+            Console.WriteLine($"\n\n[보유골드] \n{player.gold} G");
             Console.WriteLine($"\n\n상점에 오신 걸 환영합니다.");
             //Console.WriteLine($"\n\n[보유골드] \n{_player.gold} G\n\n");
             Console.WriteLine($"[아이템 목록]");
@@ -341,11 +349,13 @@
                     case 0://나가기
                         _st = "";
                         _istrade = false;
+                        Console.WriteLine("마을로 진입합니다...");
+                        System.Threading.Thread.Sleep(1000);
                         break;
                     case 1:
                         _st = " - 아이템 구매 \n";
                         _istrade = true;
-                        ShopInfo();
+                        ShopInfo(player);
                         break;
                     case 2:
                         _st = "";
@@ -354,7 +364,7 @@
                         Console.WriteLine($"아이템 판매는 단장중 ~★ .★ ~\n");
                         Console.WriteLine($"마을로 되돌아갑니당 ~★ .★ ~");
                         Console.ResetColor();
-                        System.Threading.Thread.Sleep(2000);
+                        System.Threading.Thread.Sleep(1500);
                         break;
                 }
                 break;
